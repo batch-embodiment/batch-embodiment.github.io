@@ -1,0 +1,291 @@
+/* Alignment Results section */
+#alignment {
+  --line: #e6e6e6;
+}
+
+/* Reset the template's global button styles inside this section */
+#alignment button {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: center;
+}
+
+/* ---- Task switch ---- */
+#alignment .ar-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75em 1.5em;
+  margin-bottom: 1.25em;
+}
+
+#alignment .ar-seg {
+  display: inline-flex;
+  gap: 3px;
+  padding: 3px;
+  border: solid 1px var(--line);
+  border-radius: 8px;
+}
+
+#alignment .ar-seg button {
+  padding: 0.3em 1em;
+  border-radius: 5px;
+  font-size: 0.8em;
+  line-height: 1.6em;
+  color: #787878;
+}
+
+#alignment .ar-seg button:hover { color: #333; }
+#alignment .ar-seg button.on { background: var(--accent); color: #fff; }
+
+#alignment .ar-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75em;
+  margin-bottom: 0.6em;
+  padding-bottom: 0.4em;
+  border-bottom: solid 2px #efefef;
+  font-size: 0.8em;
+  line-height: 1.4em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a2a2a2;
+}
+
+#alignment .ar-hint {
+  letter-spacing: 0;
+  text-transform: none;
+  color: #b8b8b8;
+}
+
+/* ---- Robot segment thumbnails (5 x 2) ---- */
+#alignment .ar-robots {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 1.5em;
+}
+
+#alignment .ar-robot {
+  position: relative;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+#alignment .ar-robot .ar-frame { border-radius: 4px; opacity: 0.5; transition: opacity 0.15s; }
+#alignment .ar-robot:hover { z-index: 2; transform: translateY(-2px) scale(1.04); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2); }
+#alignment .ar-robot:hover .ar-frame { opacity: 0.85; }
+#alignment .ar-robot.on .ar-frame { opacity: 1; --ring: var(--accent); --ring-w: 2px; }
+
+/* Zoomed hover (tasks with `zoom` set in alignment.js) */
+#alignment .ar-robots.zoom .ar-robot:hover {
+  z-index: 5;
+  transform: scale(var(--zoom));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+#alignment .ar-robots.zoom .ar-robot:hover .ar-frame { opacity: 1; }
+/* shrink the ring and number badge so they look the same size once enlarged */
+#alignment .ar-robots.zoom .ar-robot.on:hover .ar-frame { --ring-w: calc(2px / var(--zoom)); }
+#alignment .ar-robots.zoom .ar-robot:hover .ar-num { transform: scale(calc(1 / var(--zoom))); transform-origin: top left; }
+
+#alignment .ar-num {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  z-index: 2;
+  min-width: 1.6em;
+  padding: 0 0.35em;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.6em;
+  text-align: center;
+}
+
+#alignment .ar-robot.on .ar-num { background: var(--accent); }
+
+/* ---- Side-by-side layout (tasks with a single human video) ---- */
+#alignment .ar-body.side {
+  display: grid;
+  /* 4 : 3 makes a 4 x 3 robot grid and a 4:3 human video about the same height */
+  grid-template-columns: minmax(0, 4fr) minmax(0, 3fr);
+  gap: 1.5em;
+  align-items: start;
+}
+
+#alignment .ar-body.side .ar-robots { margin-bottom: 0; }
+
+/* ---- Retrieved human videos ---- */
+#alignment .ar-humans {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.6em;
+}
+
+#alignment .ar-cell { display: flex; flex-direction: column; gap: 0.3em; }
+
+/* ---- Comparison mode (tasks with `methods`): human strip + one demonstration aligned by each method ---- */
+#alignment .ar-humans.compare { display: block; }
+
+/* Scene switch above the strip (tasks with `humanSets`) */
+#alignment .ar-sets { margin-bottom: 0.6em; }
+#alignment .ar-sets .ar-count { margin-left: 0.25em; opacity: 0.6; font-size: 0.9em; }
+
+#alignment .ar-hstrip {
+  display: grid;
+  gap: 6px;
+}
+
+#alignment .ar-htile { position: relative; cursor: pointer; }
+#alignment .ar-htile .ar-frame { border-radius: 4px; opacity: 0.5; transition: opacity 0.15s; }
+#alignment .ar-htile:hover .ar-frame { opacity: 0.85; }
+#alignment .ar-htile.on .ar-frame { opacity: 1; --ring: var(--accent); --ring-w: 2px; }
+
+/* Zoomed hover on the human demonstrations strip (tasks with `humanZoom`) */
+#alignment .ar-hstrip.zoom .ar-htile { border-radius: 4px; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+#alignment .ar-hstrip.zoom .ar-htile:hover {
+  z-index: 5;
+  transform: scale(var(--zoom));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+#alignment .ar-hstrip.zoom .ar-htile:hover .ar-frame { opacity: 1; }
+/* keep the selection ring the same visible width once enlarged */
+#alignment .ar-hstrip.zoom .ar-htile.on:hover .ar-frame { --ring-w: calc(2px / var(--zoom)); }
+
+#alignment .ar-subhead { margin-top: 1.4em; }
+
+#alignment .ar-compare {
+  display: grid;
+  gap: 0.6em;
+}
+
+#alignment .ar-compare .ours .ar-name { color: var(--accent); }
+#alignment .ar-compare .fail .ar-frame { --ring: #d0453b; --ring-w: 3px; }
+
+/* Shared playback: play/pause + scrubber for the robot clip and every aligned video */
+#alignment .ar-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  margin-top: 0.6em;
+}
+
+#alignment .ar-play {
+  width: 2.2em;
+  height: 2.2em;
+  flex: none;
+  border-radius: 50%;
+  background: #333;
+  color: #fff;
+  font-size: 0.75em;
+  line-height: 2.2em;
+}
+
+#alignment .ar-seek {
+  position: relative;
+  flex: 1;
+  height: 16px;
+  cursor: pointer;
+  touch-action: none;
+}
+
+#alignment .ar-seek::before,
+#alignment .ar-seek-fill {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 3px;
+}
+
+#alignment .ar-seek::before { right: 0; background: #e6e6e6; }
+#alignment .ar-seek-fill { width: 0; background: var(--accent); }
+
+#alignment .ar-time {
+  flex: none;
+  min-width: 7.5em;
+  text-align: right;
+  font-family: monospace;
+  font-size: 0.75em;
+  color: #555;
+}
+
+#alignment .ar-fail-note {
+  margin: 0.15em 0 0;
+  font-size: 0.8em;
+  line-height: 1.45em;
+  color: #b3372e;
+}
+#alignment .ar-fail-note:empty { display: none; }
+#alignment .ar-fail-note strong { color: inherit; font-weight: 700; }
+
+#alignment .ar-name {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4em;
+  font-size: 0.88em;
+  line-height: 1.4em;
+  font-weight: bold;
+  color: black;
+}
+
+/* ---- Video frame ---- */
+#alignment .ar-frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #f4f4f4;
+}
+
+#alignment .ar-frame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* the Aria head-camera footage is dim (avg. luma ~80/255); brighten and add a little punch */
+  filter: brightness(1.4) contrast(1.05) saturate(1.15);
+}
+
+/* keep the colored ring above the video */
+#alignment .ar-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 var(--ring-w, 3px) var(--ring, transparent);
+  pointer-events: none;
+}
+
+/* placeholder shown when a video file is missing */
+#alignment .ar-frame.missing {
+  background: repeating-linear-gradient(135deg, #f4f4f4 0 10px, #ececec 10px 20px);
+}
+
+#alignment .ar-frame.missing video { visibility: hidden; }
+
+#alignment .ar-frame.missing::after {
+  content: attr(data-label);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: monospace;
+  font-size: 11px;
+  color: #999;
+}
+
+/* ---- Narrow screens: human videos 2 x 2 ---- */
+@media (max-width: 736px) {
+  #alignment .ar-body.side { grid-template-columns: minmax(0, 1fr); }
+  #alignment .ar-humans { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
